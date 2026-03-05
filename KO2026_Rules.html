@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KICKOFF 2026 - VT Healthcare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vtPrimary: '#26a69a', // Màu xanh ngọc từ logo VT
+                        vtDark: '#00796b',
+                        vtLight: '#b2dfdb',
+                        vtAccent: '#ffb300'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600;700;800&display=swap');
+        
+        body { 
+            font-family: 'Lexend', sans-serif; 
+            scroll-behavior: smooth; 
+            background-color: #f0f4f4;
+        }
+
+        .vt-gradient { 
+            background: linear-gradient(135deg, #26a69a 0%, #00796b 100%); 
+        }
+
+        .tab-active { 
+            border-bottom: 4px solid #ffb300; 
+            color: #00796b; 
+            background-color: #ffffff;
+        }
+
+        .sport-tab { 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            border-bottom: 4px solid transparent; 
+        }
+
+        .sticky-nav { 
+            position: sticky; 
+            top: 0; 
+            z-index: 50; 
+            background: rgba(255, 255, 255, 0.95); 
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); 
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(38, 166, 154, 0.2);
+        }
+
+        table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        th, td { border: 1px solid #e0f2f1; padding: 14px; text-align: center; }
+        th { background-color: #f1f8f7; font-weight: 700; color: #004d40; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+        
+        .rule-card { 
+            border-left: 5px solid #26a69a; 
+            background: #ffffff; 
+            padding: 1.25rem; 
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #26a69a; border-radius: 10px; }
+    </style>
+</head>
+<body class="text-slate-800">
+
+    <!-- Header Section -->
+    <header class="vt-gradient text-white py-16 px-6 relative overflow-hidden">
+        <!-- Abstract decorations -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-20 -mt-20"></div>
+        <div class="absolute bottom-0 left-0 w-40 h-40 bg-vtAccent opacity-10 rounded-full -ml-10 -mb-10"></div>
+        
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <div class="flex justify-center mb-6">
+                 <!-- Placeholder cho Logo VT Healthcare -->
+                 <div class="bg-white p-4 rounded-2xl shadow-xl inline-block">
+                    <span class="text-vtPrimary font-black text-2xl tracking-tighter">VT healthcare</span>
+                 </div>
+            </div>
+            <h1 class="text-6xl md:text-8xl font-extrabold mb-4 tracking-tighter uppercase italic drop-shadow-md">
+                Kickoff 2026
+            </h1>
+            <p class="text-xl md:text-2xl font-light opacity-95 uppercase tracking-[0.3em] mb-8">
+                Đại hội Thể thao Toàn diện
+            </p>
+            <div class="inline-flex items-center bg-vtAccent text-slate-900 px-8 py-3 rounded-full font-bold text-sm shadow-2xl transform hover:scale-105 transition">
+                <i class="fas fa-heartbeat mr-2"></i> "Play Fair – Vui là chính, An toàn là trên hết"
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="sticky-nav">
+        <div class="max-w-6xl mx-auto flex overflow-x-auto whitespace-nowrap hide-scrollbar">
+            <button onclick="showSport('football')" id="btn-football" class="sport-tab flex-1 px-8 py-5 font-bold text-slate-500 hover:text-vtPrimary uppercase text-sm tracking-widest">
+                <i class="fas fa-futbol mr-2 text-lg"></i>Bóng Đá
+            </button>
+            <button onclick="showSport('badminton')" id="btn-badminton" class="sport-tab flex-1 px-8 py-5 font-bold text-slate-500 hover:text-vtPrimary uppercase text-sm tracking-widest">
+                <i class="fas fa-shuttlecock mr-2 text-lg"></i>Cầu Lông
+            </button>
+            <button onclick="showSport('running')" id="btn-running" class="sport-tab flex-1 px-8 py-5 font-bold text-slate-500 hover:text-vtPrimary uppercase text-sm tracking-widest">
+                <i class="fas fa-running mr-2 text-lg"></i>Chạy Bộ
+            </button>
+            <button onclick="showSport('chess')" id="btn-chess" class="sport-tab flex-1 px-8 py-5 font-bold text-slate-500 hover:text-vtPrimary uppercase text-sm tracking-widest">
+                <i class="fas fa-chess mr-2 text-lg"></i>Môn Cờ
+            </button>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto p-4 md:p-12">
+
+        <!-- FOOTBALL SECTION -->
+        <section id="football" class="sport-content hidden animate-fadeIn">
+            <div class="glass-card rounded-3xl shadow-xl overflow-hidden border-none mb-12">
+                <div class="vt-gradient p-8 text-white flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div>
+                        <h2 class="text-3xl font-black uppercase tracking-tight">Thể Lệ Bóng Đá</h2>
+                        <p class="opacity-80 font-light">Sân cỏ nhân tạo - Nam (7) & Nữ (5)</p>
+                    </div>
+                    <div class="bg-white/20 backdrop-blur px-4 py-2 rounded-lg text-sm font-semibold">
+                        4 Đội Tranh Tài
+                    </div>
+                </div>
+                
+                <div class="p-8">
+                    <div class="overflow-x-auto mb-10 rounded-xl border border-teal-100">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Hạng mục</th>
+                                    <th>Nội dung Nam (Sân 7)</th>
+                                    <th>Nội dung Nữ (Sân 5)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                <tr>
+                                    <td class="font-bold text-vtDark bg-teal-50">Thể thức</td>
+                                    <td>Vòng tròn tính điểm</td>
+                                    <td>Loại trực tiếp</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold text-vtDark bg-teal-50">Thời gian</td>
+                                    <td colspan="2" class="font-medium text-lg text-vtPrimary">2 hiệp x 10 phút <span class="text-xs text-slate-400 font-normal">(Nghỉ 5')</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold text-vtDark bg-teal-50">Số lượng</td>
+                                    <td>7 chính thức + dự bị</td>
+                                    <td>5 chính thức + dự bị</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold text-vtDark bg-teal-50">Cách tính</td>
+                                    <td>Thắng 3 - Hòa 1 - Thua 0. <br><span class="text-xs text-slate-500 italic">Xét Hiệu số > Bàn thắng > Đối đầu</span></td>
+                                    <td>Thắng vào vòng trong. <br><span class="text-xs text-slate-500 italic">Hòa đá luân lưu 5 quả</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="h-8 w-2 bg-vtAccent rounded-full"></div>
+                        <h3 class="text-2xl font-black text-vtDark uppercase italic">Lịch thi đấu chi tiết</h3>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl shadow-inner bg-slate-50 p-1">
+                        <table>
+                            <thead>
+                                <tr class="bg-vtDark text-white">
+                                    <th class="text-white bg-transparent">Vòng</th>
+                                    <th class="text-white bg-transparent">Thời gian</th>
+                                    <th class="text-white bg-transparent">Sân 1 (Nam)</th>
+                                    <th class="text-white bg-transparent">Sân 2 (Nam)</th>
+                                    <th class="text-white bg-transparent">Sân 3 (Nữ)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm bg-white">
+                                <tr>
+                                    <td class="font-bold text-slate-400">ROUND 1</td>
+                                    <td class="font-mono font-bold">14:15 - 14:40</td>
+                                    <td class="hover:bg-teal-50 transition cursor-default">Nam 1 <span class="text-vtPrimary px-2">vs</span> Nam 2</td>
+                                    <td class="hover:bg-teal-50 transition cursor-default">Nam 3 <span class="text-vtPrimary px-2">vs</span> Nam 4</td>
+                                    <td class="bg-slate-50 italic text-slate-300">Nghỉ</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="bg-slate-100 italic text-slate-400 py-2">Chuyển ca</td>
+                                    <td colspan="2" class="bg-slate-100"></td>
+                                    <td class="bg-pink-50 text-pink-700 font-bold border-pink-200">BK 1: Nữ 1 vs Nữ 2</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold text-slate-400">ROUND 2</td>
+                                    <td class="font-mono font-bold">15:05 - 15:30</td>
+                                    <td class="hover:bg-teal-50 transition">Nam 1 <span class="text-vtPrimary px-2">vs</span> Nam 3</td>
+                                    <td class="hover:bg-teal-50 transition">Nam 2 <span class="text-vtPrimary px-2">vs</span> Nam 4</td>
+                                    <td class="bg-slate-50 italic text-slate-300">Nghỉ</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="bg-slate-100 italic text-slate-400 py-2">Chuyển ca</td>
+                                    <td colspan="2" class="bg-slate-100"></td>
+                                    <td class="bg-pink-50 text-pink-700 font-bold border-pink-200">BK 2: Nữ 3 vs Nữ 4</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-bold text-slate-400">ROUND 3</td>
+                                    <td class="font-mono font-bold">15:55 - 16:20</td>
+                                    <td class="hover:bg-teal-50 transition">Nam 1 <span class="text-vtPrimary px-2">vs</span> Nam 4</td>
+                                    <td class="hover:bg-teal-50 transition">Nam 2 <span class="text-vtPrimary px-2">vs</span> Nam 3</td>
+                                    <td class="bg-slate-50 italic text-slate-300">Nghỉ</td>
+                                </tr>
+                                <tr class="bg-vtPrimary/10">
+                                    <td colspan="2" class="font-bold text-vtDark uppercase">Chung cuộc</td>
+                                    <td colspan="2" class="font-black text-vtDark py-4 text-base">TRAO GIẢI NAM</td>
+                                    <td class="bg-red-500 text-white font-black py-4 text-base shadow-lg ring-2 ring-red-300">CHUNG KẾT NỮ</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BADMINTON SECTION -->
+        <section id="badminton" class="sport-content hidden animate-fadeIn">
+            <div class="glass-card rounded-3xl shadow-xl overflow-hidden mb-12">
+                <div class="vt-gradient p-8 text-white">
+                    <h2 class="text-3xl font-black uppercase tracking-tight">Cầu Lông Đồng Đội</h2>
+                    <p class="opacity-80 font-light">3 Nội dung: Đôi Nam, Đôi Nữ, Đôi Nam Nữ</p>
+                </div>
+                <div class="p-8">
+                    <div class="grid md:grid-cols-2 gap-8 mb-10">
+                        <div class="rule-card">
+                            <h4 class="font-black text-vtDark mb-4 uppercase text-sm flex items-center">
+                                <i class="fas fa-list-ol mr-2"></i> Cách tính điểm
+                            </h4>
+                            <ul class="text-sm space-y-4">
+                                <li class="flex items-start">
+                                    <span class="bg-vtPrimary text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] mt-0.5 mr-3 shrink-0">1</span>
+                                    <span>Thi đấu 3 hiệp (Best of 3), mỗi hiệp 15 điểm.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-vtPrimary text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] mt-0.5 mr-3 shrink-0">2</span>
+                                    <span>Mỗi set thắng đóng góp <strong>3 điểm</strong> tổng cho đội.</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-vtAccent text-slate-900 rounded-full w-5 h-5 flex items-center justify-center text-[10px] mt-0.5 mr-3 shrink-0">!</span>
+                                    <span><strong>Luật chạm 20:</strong> Hòa 14-14 đánh đến cách biệt 2 hoặc chạm 20 trước.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="rule-card border-l-vtAccent">
+                            <h4 class="font-black text-vtAccent mb-4 uppercase text-sm flex items-center">
+                                <i class="fas fa-exclamation-triangle mr-2"></i> Quy định chung
+                            </h4>
+                            <ul class="text-sm space-y-4">
+                                <li class="flex items-center gap-3">
+                                    <i class="fas fa-clock text-vtAccent"></i>
+                                    <span>Trễ 5 phút xử thua 0-3 (Walkover).</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i class="fas fa-sync text-vtAccent"></i>
+                                    <span>Đổi sân và thi đấu ngay (Không nghỉ giữa hiệp).</span>
+                                </li>
+                                <li class="flex items-center gap-3">
+                                    <i class="fas fa-tshirt text-vtAccent"></i>
+                                    <span>VĐV tự chuẩn bị Vợt/Giày; BTC cấp Cầu.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="h-8 w-2 bg-vtAccent rounded-full"></div>
+                        <h3 class="text-2xl font-black text-vtDark uppercase italic">Lịch Thi Đấu Vòng Tròn</h3>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-xl border border-teal-100">
+                        <table class="text-sm">
+                            <thead>
+                                <tr class="bg-teal-50">
+                                    <th class="w-1/4">Thời gian</th>
+                                    <th>ĐÔI NAM (S1)</th>
+                                    <th>ĐÔI NỮ (S2)</th>
+                                    <th>ĐÔI NAM - NỮ (S3)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="hover:bg-slate-50 transition"><td class="font-mono font-bold bg-slate-50">08:30 - 09:00</td><td>A - B</td><td>C - D</td><td class="font-semibold text-vtPrimary">A - C</td></tr>
+                                <tr class="hover:bg-slate-50 transition"><td class="font-mono font-bold bg-slate-50">09:00 - 09:30</td><td>C - D</td><td>A - B</td><td class="font-semibold text-vtPrimary">B - D</td></tr>
+                                <tr class="hover:bg-slate-50 transition"><td class="font-mono font-bold bg-slate-50">09:30 - 10:00</td><td>A - C</td><td>C - A</td><td class="font-semibold text-vtPrimary">A - D</td></tr>
+                                <tr class="hover:bg-slate-50 transition"><td class="font-mono font-bold bg-slate-50">10:00 - 10:30</td><td>B - D</td><td>B - D</td><td class="font-semibold text-vtPrimary">C - B</td></tr>
+                                <tr class="hover:bg-slate-50 transition"><td class="font-mono font-bold bg-slate-50">10:30 - 11:00</td><td>A - D</td><td>C - B</td><td class="font-semibold text-vtPrimary">A - B</td></tr>
+                                <tr class="hover:bg-slate-50 transition"><td class="font-mono font-bold bg-slate-50">11:00 - 11:30</td><td class="bg-teal-50 font-bold">B - C</td><td class="bg-teal-50 font-bold">A - D</td><td class="bg-teal-50 font-bold">C - D</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RUNNING SECTION -->
+        <section id="running" class="sport-content hidden animate-fadeIn">
+            <div class="glass-card rounded-3xl shadow-xl overflow-hidden mb-12">
+                <div class="vt-gradient p-8 text-white">
+                    <h2 class="text-3xl font-black uppercase tracking-tight">Giải Chạy Bộ 5KM</h2>
+                    <p class="opacity-80 font-light">"Sức trẻ VT Healthcare - Chinh phục đường đua"</p>
+                </div>
+                <div class="p-8">
+                    <div class="flex flex-col lg:flex-row gap-12">
+                        <div class="flex-1">
+                            <h3 class="text-xl font-black text-vtDark mb-6 uppercase tracking-tight flex items-center">
+                                <i class="fas fa-stopwatch mr-3 text-vtAccent"></i> Timeline Sự Kiện
+                            </h3>
+                            <div class="relative pl-8 space-y-10 before:content-[''] before:absolute before:left-[11px] before:top-2 before:bottom-2 before:w-1 before:bg-teal-100">
+                                <div class="relative">
+                                    <div class="absolute -left-10 top-1 w-6 h-6 bg-white border-4 border-teal-200 rounded-full z-10"></div>
+                                    <div class="flex items-baseline gap-4">
+                                        <span class="text-2xl font-black text-vtPrimary">05:15</span>
+                                        <div>
+                                            <p class="font-bold text-slate-700">Check-in</p>
+                                            <p class="text-sm text-slate-500">Tập trung & Nhận Bib số tại cổng xuất phát.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="relative">
+                                    <div class="absolute -left-10 top-1 w-6 h-6 bg-vtAccent border-4 border-yellow-100 rounded-full z-10"></div>
+                                    <div class="flex items-baseline gap-4">
+                                        <span class="text-3xl font-black text-vtDark">05:30</span>
+                                        <div>
+                                            <p class="font-black text-slate-800 uppercase text-lg">XUẤT PHÁT (5KM)</p>
+                                            <p class="text-sm text-slate-500">Hiệu lệnh còi từ Ban tổ chức.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="relative">
+                                    <div class="absolute -left-10 top-1 w-6 h-6 bg-white border-4 border-teal-200 rounded-full z-10"></div>
+                                    <div class="flex items-baseline gap-4">
+                                        <span class="text-2xl font-black text-vtPrimary">06:30</span>
+                                        <div>
+                                            <p class="font-bold text-slate-700">Vinh danh</p>
+                                            <p class="text-sm text-slate-500">Trao giải cho VĐV Nam/Nữ xuất sắc nhất.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-1 space-y-6">
+                            <div class="rule-card">
+                                <h4 class="font-black mb-4 uppercase text-xs text-vtDark tracking-widest">Kỷ luật đường đua</h4>
+                                <ul class="text-sm space-y-3">
+                                    <li class="flex items-start gap-3 italic">
+                                        <i class="fas fa-check-circle text-vtPrimary mt-1"></i>
+                                        <span>Chạy đúng lộ trình quy định, không đi tắt.</span>
+                                    </li>
+                                    <li class="flex items-start gap-3 italic">
+                                        <i class="fas fa-check-circle text-vtPrimary mt-1"></i>
+                                        <span>Không sử dụng phương tiện hỗ trợ (xe đạp, điện...).</span>
+                                    </li>
+                                    <li class="flex items-start gap-3 font-bold text-red-600">
+                                        <i class="fas fa-times-circle mt-1"></i>
+                                        <span>Vi phạm sẽ bị hủy kết quả ngay lập tức.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="bg-red-50 p-6 rounded-2xl border border-red-100">
+                                <h4 class="font-black mb-2 uppercase text-xs text-red-700">An toàn là số 1</h4>
+                                <p class="text-xs text-red-600 leading-relaxed italic">
+                                    VĐV tự đánh giá sức khỏe bản thân. Nếu có dấu hiệu chóng mặt, khó thở, vui lòng dừng lại và báo ngay cho đội y tế dọc đường đua.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHESS SECTION -->
+        <section id="chess" class="sport-content hidden animate-fadeIn">
+            <div class="glass-card rounded-3xl shadow-xl overflow-hidden mb-12">
+                <div class="vt-gradient p-8 text-white flex justify-between items-end">
+                    <div>
+                        <h2 class="text-3xl font-black uppercase tracking-tight">Môn Cờ Đồng Đội</h2>
+                        <p class="opacity-80 font-light">Xoay vòng đồng đội (3 người/đội)</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="block text-2xl font-black">15 PHÚT</span>
+                        <span class="text-xs uppercase opacity-70">Tổng thời gian/đội</span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="grid md:grid-cols-2 gap-8 mb-10">
+                        <div class="rule-card border-l-slate-800">
+                            <h4 class="font-black text-slate-800 mb-4 uppercase text-sm">Cơ chế thi đấu</h4>
+                            <ul class="text-sm space-y-4">
+                                <li class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                    <strong class="text-vtDark">Xoay vòng:</strong> 3 thành viên đi luân phiên từng nước cờ theo thứ tự cố định.
+                                </li>
+                                <li class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                    <strong class="text-vtDark">Chạm quân:</strong> Áp dụng luật "chạm quân phải đi" cực kỳ nghiêm ngặt.
+                                </li>
+                                <li class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                    <strong class="text-vtDark">Chiến thuật:</strong> Chỉ được thảo luận khi đồng hồ của đội mình đang chạy.
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="rule-card border-l-red-600 bg-red-50/30">
+                            <h4 class="font-black text-red-700 mb-4 uppercase text-sm italic">Hệ thống xử phạt</h4>
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                                    <span class="text-sm">Sai thứ tự lần 1</span>
+                                    <span class="text-xs font-bold px-2 py-1 bg-yellow-100 text-yellow-700 rounded">CẢNH CÁO</span>
+                                </div>
+                                <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm">
+                                    <span class="text-sm">Sai thứ tự lần 3</span>
+                                    <span class="text-xs font-bold px-2 py-1 bg-red-100 text-red-700 rounded">XỬ THUA VÁN</span>
+                                </div>
+                                <p class="text-[10px] text-slate-400 italic mt-2 text-center">Ban tổ chức có quyền loại đội có hành vi thiếu Fair-play.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="h-8 w-2 bg-vtAccent rounded-full"></div>
+                        <h3 class="text-2xl font-black text-vtDark uppercase italic">Sơ đồ Knock-out</h3>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-2xl border border-slate-200">
+                        <table class="text-sm">
+                            <thead>
+                                <tr class="bg-slate-800 text-white">
+                                    <th class="text-white py-4">Giai đoạn</th>
+                                    <th class="text-white">Thời gian</th>
+                                    <th class="text-white">Chi tiết cặp đấu</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="font-black text-slate-400">TỨ KẾT</td>
+                                    <td class="font-mono font-bold">09:10 - 09:45</td>
+                                    <td class="text-left py-4 px-6">
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div class="p-2 border rounded">TK1: Đội 1 - 8</div>
+                                            <div class="p-2 border rounded">TK2: Đội 2 - 7</div>
+                                            <div class="p-2 border rounded">TK3: Đội 3 - 6</div>
+                                            <div class="p-2 border rounded">TK4: Đội 4 - 5</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="bg-teal-50 hover:bg-teal-100 transition">
+                                    <td class="font-black text-vtDark">BÁN KẾT</td>
+                                    <td class="font-mono font-bold">10:20 - 10:55</td>
+                                    <td class="text-left py-4 px-6">
+                                        <div class="flex justify-around items-center">
+                                            <div class="font-bold">Thắng TK1 <i class="fas fa-vs mx-2 text-vtPrimary opacity-50"></i> Thắng TK4</div>
+                                            <div class="h-4 w-[1px] bg-teal-200"></div>
+                                            <div class="font-bold">Thắng TK2 <i class="fas fa-vs mx-2 text-vtPrimary opacity-50"></i> Thắng TK3</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="bg-vtAccent/10">
+                                    <td class="font-black text-red-700">CHUNG KẾT</td>
+                                    <td class="font-mono font-bold text-red-700">10:55 - 11:30</td>
+                                    <td class="py-6">
+                                        <div class="inline-block px-8 py-3 bg-white border-2 border-vtAccent rounded-full font-black text-vtDark shadow-lg uppercase tracking-widest">
+                                            Tranh Ngôi Vô Địch & Đồng hạng Ba
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="vt-gradient text-white py-16 px-6 mt-20 relative">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="flex justify-center mb-8">
+                <div class="bg-white/10 backdrop-blur-lg p-6 rounded-3xl border border-white/20">
+                    <span class="text-white font-black text-3xl tracking-tighter">VT healthcare</span>
+                    <p class="text-[10px] tracking-[0.4em] uppercase mt-1 opacity-60">Ban Tổ Chức</p>
+                </div>
+            </div>
+            <h4 class="text-2xl font-black uppercase tracking-[0.2em] mb-4">Kickoff 2026</h4>
+            <p class="text-lg italic opacity-80 mb-8 font-light leading-relaxed">
+                "Kết nối sức mạnh - Lan tỏa niềm tin - Cùng nhau phát triển"
+            </p>
+            <div class="w-20 h-1 bg-vtAccent mx-auto mb-8 rounded-full"></div>
+            <div class="flex justify-center gap-6 text-2xl opacity-60 hover:opacity-100 transition">
+                <i class="fab fa-facebook hover:text-vtAccent cursor-pointer"></i>
+                <i class="fas fa-globe hover:text-vtAccent cursor-pointer"></i>
+                <i class="fas fa-envelope hover:text-vtAccent cursor-pointer"></i>
+            </div>
+            <p class="mt-12 text-[10px] opacity-40 uppercase tracking-widest">© 2026 VT Healthcare Internal Event. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showSport(sportId) {
+            // Hide all contents
+            document.querySelectorAll('.sport-content').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Reset all tabs
+            document.querySelectorAll('.sport-tab').forEach(tab => {
+                tab.classList.remove('tab-active');
+                tab.classList.add('text-slate-500');
+                tab.classList.remove('text-vtPrimary');
+            });
+
+            // Show selected section
+            const selectedSection = document.getElementById(sportId);
+            selectedSection.classList.remove('hidden');
+            
+            // Set active tab style
+            const activeBtn = document.getElementById('btn-' + sportId);
+            activeBtn.classList.add('tab-active');
+            activeBtn.classList.remove('text-slate-500');
+            activeBtn.classList.add('text-vtPrimary');
+
+            // Save to local storage
+            localStorage.setItem('activeSport_VT', sportId);
+            
+            // Smooth scroll to top of main if on mobile
+            if(window.innerWidth < 768) {
+                window.scrollTo({
+                    top: document.querySelector('nav').offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        window.onload = () => {
+            const savedSport = localStorage.getItem('activeSport_VT') || 'football';
+            showSport(savedSport);
+        };
+    </script>
+</body>
+</html>
